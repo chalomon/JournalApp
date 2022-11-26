@@ -1,16 +1,16 @@
 import { Link as RouterLink } from 'react-router-dom'
 import { Google } from "@mui/icons-material"
-import { Grid, Typography, TextField, Button, Link } from "@mui/material"
+import { Grid, Typography, TextField, Button, Link, Alert } from "@mui/material"
 import { AuthLayout } from '../layout/AuthLayout'
 import { useForm } from '../../hooks'
 import { useDispatch, useSelector } from 'react-redux'
-import { checkingAuthentication, startGoogleSignIn } from '../../store/auth'
+import { startLoginWithEmailPassword, startGoogleSignIn } from '../../store/auth'
 import { useMemo } from 'react'
 
 
 export const LoginPage = () => {
 
-  const { status } = useSelector( state => state.auth );
+  const { status, errorMessage } = useSelector( state => state.auth );
 
   const dispatch = useDispatch();
   
@@ -25,12 +25,11 @@ export const LoginPage = () => {
 
   const onSubmit = ( event ) => {
     event.preventDefault();
-    console.log({ email, password });
-    dispatch(checkingAuthentication())
+    //No es la acción a despachar
+    dispatch(startLoginWithEmailPassword({email, password}));
   };
 
   const onGoogleSignIn = () => {
-    console.log('onGoogleSignIn');
     dispatch(startGoogleSignIn());
   };
 
@@ -39,7 +38,7 @@ export const LoginPage = () => {
     
     <AuthLayout title='Login'>
 
-        <form onSubmit={ onSubmit }>
+        <form onSubmit={ onSubmit } className='animate__animated animate__fadeIn animate__faster'>
           <Grid container>
             <Grid item xs={12} sx={{mt: 2}}>
               <TextField 
@@ -66,7 +65,22 @@ export const LoginPage = () => {
               />
             </Grid>
 
+
+            <Grid 
+              container
+              display={ !!errorMessage ? '' : 'none' }
+              sx={{mt: 1, mb: 1}}>
+                
+              <Grid item 
+                xs={12}>
+                <Alert severity='error'>{ errorMessage }</Alert>
+              </Grid>
+
+            </Grid>
+
+
             <Grid container spacing={2} sx={{mb:2, mt:1}}>
+
               <Grid item xs={12} sm={6}>
                 <Button 
                   type="submit" 
