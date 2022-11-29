@@ -8,8 +8,8 @@ import { startLoginWithEmailPassword, startGoogleSignIn } from '../../store/auth
 import { useMemo } from 'react'
 
 const formData = {
-  email: 'gonzalo@gmail.com',
-  password: '123456'
+  email: '',
+  password: ''
 };
 
 export const LoginPage = () => {
