@@ -52,6 +52,7 @@ export const LoginPage = () => {
                 name="email"
                 value={ email }
                 onChange={ onInputChange }
+                autoComplete="off"
               />
             </Grid>
 
@@ -64,6 +65,7 @@ export const LoginPage = () => {
                 name="password"
                 value={ password }
                 onChange={ onInputChange }
+                autoComplete="off"
                 // onClick={ dispatch(checkingAuthentication()) }
               />
             </Grid>
