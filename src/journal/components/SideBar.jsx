@@ -1,24 +1,18 @@
 import { Box, Divider, Drawer, List, Toolbar, Typography } from "@mui/material"
 import { useSelector } from "react-redux";
 import { SideBarItem } from "./";
-import { useState } from "react";
 
-
-
-export const SideBar = (props, {drawerWidth = 240}) => {
+export const SideBar = ({drawerWidth = 240, visible, handleVisible}) => {
 
     const { displayName } = useSelector( state => state.auth );
     const { notes } = useSelector( state => state.journal );
 
-    const [mobileOpen, setMobileOpen] = useState(false);
+    
 
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-      };
 
-      const drawer = (
+    const drawer = (
         <>
-            <Toolbar>
+                    <Toolbar>
                 <Typography variant='h6' noWrap component='div'>
                     {displayName}
                 </Typography>
@@ -35,41 +29,37 @@ export const SideBar = (props, {drawerWidth = 240}) => {
                 }
             </List>
         </>
-      );
-
-      const { window } = props;
-
-      const container = window !== undefined ? () => window().document.body : undefined;
+    );
 
   return (
-    <Box
-        component='nav'
-        sx={{width: {sm: drawerWidth}, flexShrink: {sm:0} }}
-    >
+
+      <Box
+      component='nav'
+      sx={{width: {sm: drawerWidth}, flexShrink: {sm:0} }}
+      >
         <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
+            variant='permanent' //permanent si quiere mostrarse siempre
+            open={true}
+            sx={{
+                display: {xs: 'none', sm: 'block'},
+                '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth}
+            }}
         >
-          {drawer}
+            {drawer}
+
         </Drawer>
+
         <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-          open
+            variant='temporary' //temporary si es que quiere ocultarse
+            open={visible}
+            sx={{
+                display: {xs: 'block', sm: 'none'},
+                '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth}
+            }}
+            onClose={handleVisible}
         >
-          {drawer}
+            {drawer}
+
         </Drawer>
 
     </Box>
